@@ -9,11 +9,21 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const PORT = process.env.PORT || 3000;
+let port = process.env.PORT || 3000;
+if (port == null || port == "") {
+  port = 3000;
+}
 
-mongoose.connect(
-  "mongodb+srv://ivan_martinn:Feliany96@cluster0.ixws3pd.mongodb.net/todolistDB"
-);
+mongoose
+  .connect(
+    "mongodb+srv://ivan_martinn:Feliany96@cluster0.ixws3pd.mongodb.net/todolistDB"
+  )
+  .then(
+    app.listen(port, function (err) {
+      if (err) console.log("Error in server setup");
+      console.log("Server listening on Port", port);
+    })
+  );
 
 const itemsSchema = new mongoose.Schema({
   name: String,
@@ -175,9 +185,4 @@ app.post("/delete", function (req, res) {
         console.log(err);
       });
   }
-});
-
-app.listen(PORT || 3000, function (err) {
-  if (err) console.log("Error in server setup");
-  console.log("Server listening on Port", PORT);
 });
