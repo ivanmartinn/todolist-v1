@@ -1,0 +1,28 @@
+<%- include('header'); -%>
+    <div class="box" id="heading">
+      <h1><%= title.toUpperCase() %></h1>
+    </div>
+
+    <div class="box">
+      <% if (items.length > 0) { %> <% items.forEach((value) => { %>
+      <form action="/delete" method="post">
+        <div class="item">
+          <input type="checkbox" name="checkbox" value="<%= value._id %>" onChange="this.form.submit()" />
+          <p><%= value.name %></p>
+        </div>
+	<input type="hidden" name="titleName" value="<%= title %>" />
+      </form>
+      <% }) %> <% } %>
+
+      <form class="item" action="/" method="post">
+        <input
+          id="newInput"
+          type="text"
+          name="newTodo"
+          placeholder="New Item"
+          autocomplete="off"
+        />
+        <button type="submit" name="titleName" value=<%= title %>>+</button>
+      </form>
+    </div>
+<%- include('footer'); -%>
