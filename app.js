@@ -9,21 +9,14 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let port = process.env.PORT || 3000;
-if (port == null || port == "") {
-  port = 3000;
-}
+const port = process.env.PORT || 3000;
 
-mongoose
-  .connect(
-    "mongodb+srv://ivan_martinn:Feliany96@cluster0.ixws3pd.mongodb.net/todolistDB"
-  )
-  .then(
-    app.listen(port, function (err) {
-      if (err) console.log("Error in server setup");
-      console.log("Server listening on Port", port);
-    })
-  );
+mongoose.connect(process.env.MONGO_URI).then(
+  app.listen(port, function (err) {
+    if (err) console.log("Error in server setup");
+    console.log("Server listening on Port", port);
+  })
+);
 
 const itemsSchema = new mongoose.Schema({
   name: String,
